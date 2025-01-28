@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  title: Air Cylinder API
+  version: 1.0.0
+paths:
+  /air_cylinder_double_action_cad_urls:
+    get:
+      summary: Retrieve a list of AirCylinderDoubleActionCadUrls
+      operationId: getAirCylinderDoubleActionCadUrls
+      tags:
+        - AirCylinderDoubleActionCadUrls
+      responses:
+        '200':
+          description: A list of AirCylinderDoubleActionCadUrls
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AirCylinderDoubleActionCadUrl'
+
+  /air_cylinder_double_action_parts:
+    get:
+      summary: Retrieve a list of AirCylinderDoubleActionParts
+      operationId: getAirCylinderDoubleActionParts
+      tags:
+        - AirCylinderDoubleActionParts
+      responses:
+        '200':
+          description: A list of AirCylinderDoubleActionParts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/AirCylinderDoubleActionPart'
+                    - type: object
+                      properties:
+                        air_cylinder_double_action_cad_url:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/AirCylinderDoubleActionCadUrl'
+
+  /air_cylinder_double_action_series:
+    get:
+      summary: Retrieve a list of AirCylinderDoubleActionSeries
+      operationId: getAirCylinderDoubleActionSeries
+      tags:
+        - AirCylinderDoubleActionSeries
+      responses:
+        '200':
+          description: A list of AirCylinderDoubleActionSeries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/AirCylinderDoubleActionSeries'
+                    - type: object
+                      properties:
+                        air_cylinder_double_action_parts:
+                          type: array
+                          items:
+                            allOf:
+                              - $ref: '#/components/schemas/AirCylinderDoubleActionPart'
+                              - type: object
+                                properties:
+                                  air_cylinder_double_action_cad_url:
+                                    type: array
+                                    items:
+                                      $ref: '#/components/schemas/AirCylinderDoubleActionCadUrl'
+
+  /air_cylinder_double_action_makers:
+    get:
+      summary: Retrieve a list of AirCylinderDoubleActionMakers
+      operationId: getAirCylinderDoubleActionMakers
+      tags:
+        - AirCylinderDoubleActionMakers
+      responses:
+        '200':
+          description: A list of AirCylinderDoubleActionMakers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/AirCylinderDoubleActionMaker'
+                    - type: object
+                      properties:
+                        air_cylinder_double_action_series:
+                          type: array
+                          items:
+                            allOf:
+                              - $ref: '#/components/schemas/AirCylinderDoubleActionSeries'
+                              - type: object
+                                properties:
+                                  air_cylinder_double_action_parts:
+                                    type: array
+                                    items:
+                                      allOf:
+                                        - $ref: '#/components/schemas/AirCylinderDoubleActionPart'
+                                        - type: object
+                                          properties:
+                                            air_cylinder_double_action_cad_url:
+                                              type: array
+                                              items:
+                                                $ref: '#/components/schemas/AirCylinderDoubleActionCadUrl'
+components:
+  schemas:
+    AirCylinderDoubleActionCadUrl:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cad_url:
+          type: string
+        air_cylinder_double_action_part_id:
+          type: integer
+          description: Reference to AirCylinderDoubleActionPart
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - cad_url
+        - air_cylinder_double_action_part_id
+
+    AirCylinderDoubleActionPart:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        type_no:
+          type: string
+        cylinder_diameter:
+          type: integer
+        rod_diameter:
+          type: integer
+        stroke:
+          type: object
+          additionalProperties: true
+        air_cylinder_double_action_series_id:
+          type: integer
+          description: Reference to AirCylinderDoubleActionSeries
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - type_no
+        - cylinder_diameter
+        - rod_diameter
+        - stroke
+        - air_cylinder_double_action_series_id
+
+    AirCylinderDoubleActionSeries:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+        image_url:
+          type: string
+        air_cylinder_double_action_maker_id:
+          type: integer
+          description: Reference to AirCylinderDoubleActionMaker
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - name
+        - url
+        - air_cylinder_double_action_maker_id
+
+    AirCylinderDoubleActionMaker:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - name
