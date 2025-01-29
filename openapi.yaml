@@ -11,7 +11,7 @@ paths:
         - AirCylinderDoubleActionCadUrls
       responses:
         '200':
-          description: A list of AirCylinderDoubleActionCadUrls
+          description: カタログURLのリスト
           content:
             application/json:
               schema:
